@@ -1,5 +1,6 @@
-# Ship only the page
+# Ship only the pages
 *
 !index.html
+!validation.html
 !.nojekyll
 !.gitignore

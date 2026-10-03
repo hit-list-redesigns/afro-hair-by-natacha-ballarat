@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design Validation | Afro-Hair by Natacha</title>
+<meta name="description" content="Why the Afro-Hair by Natacha redesign is built the way it is, and how it measured against accessibility, performance, booking-flow and brief requirements.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,300..700;1,62..125,300..500&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0f0e0d;--char:#1a1917;--bone:#ece6dc;--bone-2:#d9d2c6;--stone:#a39d93;--gold:#c9a45c;--ok:#9fd3a8;--rule:rgba(236,230,220,.16);--rule-strong:rgba(236,230,220,.34);--font:"Archivo",system-ui,sans-serif;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scrollbar-color:#4a4640 var(--black)}
+body{margin:0;background:var(--black);color:var(--bone-2);font:400 1.0625rem/1.65 var(--font);-webkit-font-smoothing:antialiased}
+::selection{background:var(--bone);color:var(--black)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+a{color:var(--bone);text-underline-offset:.25em;text-decoration-color:var(--rule-strong)}
+a:hover{text-decoration-color:var(--gold)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 clamp(1rem,.4rem + 3vw,3rem)}
+header{border-bottom:1px solid var(--rule);padding:1.4rem 0}
+header .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+header b{font-weight:600;font-stretch:125%;letter-spacing:.06em;text-transform:uppercase;color:var(--bone);font-size:.9rem}
+header nav{display:flex;gap:1.4rem;flex-wrap:wrap;font-size:.95rem}
+h1,h2,h3{margin:0;color:var(--bone);text-wrap:balance}
+h1{font-size:clamp(2.6rem,1.2rem + 5vw,5rem);font-weight:300;font-stretch:120%;line-height:.98;letter-spacing:-.03em;margin-top:clamp(2.5rem,6vw,4.5rem)}
+h1 span{display:block;font-size:.5em;font-style:italic;font-stretch:100%;color:var(--gold);margin-top:.35em;letter-spacing:-.01em}
+h2{font-size:clamp(1.8rem,1.2rem + 2vw,2.8rem);font-weight:300;font-stretch:115%;line-height:1.05;letter-spacing:-.02em}
+h3{font-size:1.2rem;font-weight:500;line-height:1.3}
+p{margin:0}
+.lede{margin-top:1.4rem;max-width:62ch;font-size:1.15rem}
+section{padding:clamp(3rem,6vw,5rem) 0;border-top:1px solid var(--rule)}
+.sec-intro{margin-top:1rem;max-width:64ch;color:var(--stone)}
+.verdict{margin-top:2.4rem;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--rule)}
+.verdict div{background:var(--black);padding:1.3rem 1.2rem}
+.verdict b{display:block;font-size:clamp(1.6rem,1.2rem + 1vw,2.2rem);font-weight:300;font-stretch:115%;color:var(--bone);line-height:1.1}
+.verdict span{display:block;margin-top:.4rem;font-size:.9rem;color:var(--stone)}
+.links{margin-top:2rem;display:flex;flex-wrap:wrap;gap:.8rem}
+.btn{display:inline-flex;align-items:center;min-height:48px;padding:.8rem 1.3rem;border:1px solid var(--bone);color:var(--bone);text-decoration:none;font-weight:600}
+.btn.solid{background:var(--bone);color:var(--black)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.6rem 3rem;margin-top:2rem}
+.item h3{margin-bottom:.5rem}
+.item p{color:var(--stone)}
+.item p + p{margin-top:.6rem}
+.item .ev{color:var(--bone-2);font-size:.95rem;border-left:1px solid var(--gold);padding-left:.9rem;margin-top:.8rem}
+table{width:100%;border-collapse:collapse;margin-top:1.8rem;font-size:.97rem}
+caption{text-align:left;color:var(--stone);font-size:.9rem;padding-bottom:.6rem}
+th,td{text-align:left;padding:.7rem .8rem;border-bottom:1px solid var(--rule);vertical-align:top}
+thead th{color:var(--bone);font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;border-bottom-color:var(--rule-strong)}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+td.pass{color:var(--ok);font-weight:600;white-space:nowrap}
+.table-scroll{overflow-x:auto}
+.tag{display:inline-block;font-size:.76rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border:1px solid var(--rule-strong);padding:.15rem .45rem;margin-left:.4rem}
+ul.plain{margin:1.4rem 0 0;padding:0;list-style:none;display:grid;gap:.7rem}
+ul.plain li{padding-left:1.1rem;position:relative}
+ul.plain li::before{content:"";position:absolute;left:0;top:.7em;width:.45rem;height:1px;background:var(--gold)}
+.compare td:first-child{color:var(--bone);font-weight:500}
+footer{border-top:1px solid var(--rule);padding:2rem 0 3rem;color:var(--stone);font-size:.9rem}
+@media (max-width:760px){.verdict{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><b>Afro-Hair by Natacha</b><nav aria-label="Report sections"><a href="#why">Why</a><a href="#results">Results</a><a href="#facts">Fact audit</a><a href="#limits">Limits</a><a href="#compare">Earlier concept</a></nav></div></header>
+<main class="wrap">
+  <h1>Design validation <span>The gallery of styles</span></h1>
+  <p class="lede">This page explains why the redesign is built the way it is, and shows how it measured. Every claim on the redesign was checked against Natacha's own website, price lists and Instagram, and every requirement in the brief was tested in a real browser.</p>
+  <div class="verdict" role="list">
+    <div role="listitem"><b>19 / 19</b><span>Booking and content tests passed</span></div>
+    <div role="listitem"><b>0</b><span>WCAG 2.2 A/AA violations found by axe-core (desktop and mobile)</span></div>
+    <div role="listitem"><b>6.14 : 1</b><span>Lowest text contrast on the page (AA needs 4.5 : 1)</span></div>
+    <div role="listitem"><b>0.68 s</b><span>Largest paint on a throttled phone (good is under 2.5 s)</span></div>
+  </div>
+  <div class="links"><a class="btn solid" href="./">Open the site</a></div>
+
+  <section id="why" aria-labelledby="why-h">
+    <h2 id="why-h">Who it is for, and what it must do</h2>
+    <p class="sec-intro">Audience facts come from the live site. Where something is a reasoned assumption rather than a published fact, it is labelled.</p>
+    <div class="grid2">
+      <div class="item"><h3>The visitor</h3><p>People in Ballarat with curly, kinky, coily or textured hair, and parents of curly-haired children, who until now travelled to Melbourne because local salons could not cut or style afro hair.</p><p class="ev">Source: Natacha's own story on the current site, and Claire's quote about finally finding a hairdresser for her daughter.</p></div>
+      <div class="item"><h3>Their one question</h3><p>"Can she do my hair, and how do I get in?" The page answers the first in the opening screen (specialist, services, award) and the second with Book and Call buttons that never leave reach on a phone.</p><p class="ev">Assumption: most visitors arrive on a phone from Instagram, Facebook, TikTok or a local search. Her socials are her most active channel.</p></div>
+      <div class="item"><h3>The conversion</h3><p>No online booking system exists. So the page takes a booking request in four short steps and hands it to Natacha pre-written on WhatsApp, SMS or email. It says plainly that she confirms the time.</p><p class="ev">Source: the live site's only action is "Call Today". Her flyers list WhatsApp on +61 431 024 092.</p></div>
+      <div class="item"><h3>The brief's hard rules</h3><p>Real facts only, labelled placeholders, Natacha's own photos, no arch or cutout shapes, a luxurious and readable look, hours with today highlighted, address, map, phone, a sticky Book and Call bar on mobile, and a strong closing call to action.</p><p class="ev">All rules were checked and are listed in the results below.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="dec-h">
+    <h2 id="dec-h">Each design decision, and the reason for it</h2>
+    <div class="grid2">
+      <div class="item"><h3>Black-and-white prints that develop into colour</h3><p>Natacha's style photos are small phone pictures (some only 267 by 248 pixels) with clashing backgrounds: wood doors, pink tops, a yellow stall tablecloth. Printed in black and white inside a bone mat, they read as one consistent, expensive collection. Hover, or tap "Show in colour", and each print shows the real colours, so nothing is hidden.</p><p class="ev">Cultural reference: J.D. 'Okhai Ojeikere's black-and-white Hairstyles series, which photographed African hairstyles as sculpture.</p></div>
+      <div class="item"><h3>A dark gallery, with gold kept for prices</h3><p>A near-black ground with bone-white type gives the quiet, high-end feel the brief asked for. It also lets the hair be the brightest thing on the screen. Gold, the colour of her logo, is reserved for prices and the refrain "we do them all", so the eye goes there.</p><p class="ev">Measured contrast: bone on black 15.5 : 1, gold on black 8.2 : 1, secondary text 7.2 : 1.</p></div>
+      <div class="item"><h3>A readable typeface</h3><p>Archivo is one family that reads clearly at body size and can widen into an elegant display cut for headlines. That answers the request for easier reading without losing the luxury feel. Body text is 17px with generous line spacing.</p><p class="ev">No visible text on mobile is smaller than 12px. Every text block passed contrast.</p></div>
+      <div class="item"><h3>Her own words as the headline</h3><p>"We do them all." is Natacha's own line from her site. It says she serves every texture, heritage and age in four words. The line underneath states plainly what she is and where: afro and curly hair specialist, Black Hill, Ballarat.</p><p class="ev">Brief requirement: say what this is, why it is worth it, and offer the action, all in the first screen. Checked at 1440, 1400, 800 and 390 pixels wide.</p></div>
+      <div class="item"><h3>The shop is the one room in colour</h3><p>Products are recognised by their packaging colours, so the shop switches to a bright paper ground and full-colour photos from her Instagram. Every price is copied exactly from her October 2025 price list, under "from $14".</p><p class="ev">Source: April 2026 range PDF on her site (prices as at 01.10.2025).</p></div>
+      <div class="item"><h3>Booking, one decision at a time</h3><p>One question per step (service, day, details), then a review screen with "Change" links before sending. Each step checks its answer before moving on and explains exactly what is missing. Fewer choices on screen means a faster, calmer decision on a phone.</p><p class="ev">Tested: 12 booking tests, including empty steps, a one-letter name, Back, Change, the Enter key, and the exact WhatsApp message produced.</p></div>
+      <div class="item"><h3>The mobile bar waits its turn</h3><p>On phones, the sticky Call and Book bar slides in only after the opening screen's own buttons scroll away. This avoids five competing buttons in the first view, a problem the version 1 review caught.</p><p class="ev">Verified on a 390 pixel screen, both before and after scrolling.</p></div>
+      <div class="item"><h3>Rectangles only</h3><p>No arches, circles, notches or masked photo shapes anywhere, as requested after version 1. Structure comes from mats, thin rules and spacing instead.</p><p class="ev">Checked by script: no element on the page has a corner radius above 0.</p></div>
+    </div>
+  </section>
+
+  <section id="results" aria-labelledby="res-h">
+    <h2 id="res-h">Measured results</h2>
+    <p class="sec-intro">Tested in headless Google Chrome through its DevTools protocol, against the exact file that is published. Accessibility was audited with axe-core 4.10.2 using its WCAG 2.0, 2.1 and 2.2 A and AA rules.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable table"><table>
+      <caption>Booking flow and content tests</caption>
+      <thead><tr><th scope="col">Test</th><th scope="col">Result</th></tr></thead>
+      <tbody>
+        <tr><td>Step 1 blocks Continue with no service and explains why</td><td class="pass">Pass</td></tr>
+        <tr><td>The error is announced to screen readers and focus moves into the step</td><td class="pass">Pass</td></tr>
+        <tr><td>Choosing a service clears the error</td><td class="pass">Pass</td></tr>
+        <tr><td>A valid step 1 advances and updates the progress bar</td><td class="pass">Pass</td></tr>
+        <tr><td>Step 2 blocks Continue with no day</td><td class="pass">Pass</td></tr>
+        <tr><td>Only open days are offered (no Sunday or Monday under the sample hours)</td><td class="pass">Pass</td></tr>
+        <tr><td>Back returns to step 1 with the choice kept</td><td class="pass">Pass</td></tr>
+        <tr><td>Step 3 blocks an empty name and marks the field invalid</td><td class="pass">Pass</td></tr>
+        <tr><td>A one-letter name is rejected with a specific message</td><td class="pass">Pass</td></tr>
+        <tr><td>Pressing Enter in the name field goes to review without reloading the page</td><td class="pass">Pass</td></tr>
+        <tr><td>Review shows the trimmed name, service, day and note</td><td class="pass">Pass</td></tr>
+        <tr><td>"Change" jumps back to the right step</td><td class="pass">Pass</td></tr>
+        <tr><td>WhatsApp opens wa.me/61431024092 with the full request written out</td><td class="pass">Pass</td></tr>
+        <tr><td>Exactly one day is highlighted as today, in Ballarat time</td><td class="pass">Pass</td></tr>
+        <tr><td>Open or closed status is calculated live</td><td class="pass">Pass</td></tr>
+        <tr><td>Every phone link uses the published number</td><td class="pass">Pass</td></tr>
+        <tr><td>No em or en dashes in visible copy</td><td class="pass">Pass</td></tr>
+        <tr><td>Every image has alt text (empty only when decorative)</td><td class="pass">Pass</td></tr>
+        <tr><td>No stock photography</td><td class="pass">Pass</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable table"><table>
+      <caption>Accessibility, layout and speed by screen size</caption>
+      <thead><tr><th scope="col">Screen</th><th scope="col">Sideways scroll</th><th scope="col">axe violations</th><th scope="col">Contrast failures</th><th scope="col">Largest paint</th><th scope="col">Layout shift</th></tr></thead>
+      <tbody>
+        <tr><td>Desktop 1440 × 900</td><td class="pass">None</td><td class="num">0 (34 rules passed)</td><td class="num">0 of 161 text blocks</td><td class="num">0.44 s</td><td class="num">0.011</td></tr>
+        <tr><td>Tall desktop 1400 × 1300</td><td class="pass">None</td><td class="num">not run</td><td class="num">not run</td><td class="num">0.26 s</td><td class="num">0.009</td></tr>
+        <tr><td>Tablet 800 × 1100</td><td class="pass">None</td><td class="num">not run</td><td class="num">not run</td><td class="num">0.22 s</td><td class="num">0.017</td></tr>
+        <tr><td>Phone 390 × 844</td><td class="pass">None</td><td class="num">0 (34 rules passed)</td><td class="num">0 of 158 text blocks</td><td class="num">0.24 s</td><td class="num">0</td></tr>
+        <tr><td>Phone, throttled (slow 4G and 4× slower CPU)</td><td class="pass">None</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">0.68 s</td><td class="num">0.069</td></tr>
+      </tbody>
+    </table></div>
+    <p class="sec-intro">Google's "good" thresholds are a largest paint under 2.5 s and a layout shift under 0.1. Page weight is about 480 KB in a single file, because Natacha's photos are embedded, plus the Archivo web font.</p>
+
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable table"><table>
+      <caption>Colour contrast for every text and background pair (WCAG AA: 4.5 : 1 body, 3 : 1 large text)</caption>
+      <thead><tr><th scope="col">Use</th><th scope="col">Ratio</th></tr></thead>
+      <tbody>
+        <tr><td>Headings, bone on gallery black</td><td class="num">15.54 : 1</td></tr>
+        <tr><td>Body text on gallery black</td><td class="num">12.84 : 1</td></tr>
+        <tr><td>Secondary text on black</td><td class="num">7.16 : 1</td></tr>
+        <tr><td>Secondary text on charcoal sections</td><td class="num">6.53 : 1</td></tr>
+        <tr><td>Gold prices and italics on black</td><td class="num">8.22 : 1</td></tr>
+        <tr><td>Gold on charcoal sections</td><td class="num">7.49 : 1</td></tr>
+        <tr><td>Primary button, black on bone</td><td class="num">15.54 : 1</td></tr>
+        <tr><td>Shop headings, ink on paper</td><td class="num">16.05 : 1</td></tr>
+        <tr><td>Shop secondary text on paper</td><td class="num">6.14 : 1</td></tr>
+        <tr><td>Error messages on black</td><td class="num">9.69 : 1</td></tr>
+      </tbody>
+    </table></div>
+
+    <ul class="plain">
+      <li>Every interactive target is at least 24 by 24 pixels (WCAG 2.2 target size). Buttons are 44 to 52 pixels tall.</li>
+      <li>Keyboard: a skip link, a visible gold focus ring on every control, and booking choices that are real radio buttons, so arrow keys work.</li>
+      <li>Reduced motion: the one animation (the hero print developing) and smooth scrolling switch off for visitors who ask their device for less motion.</li>
+      <li>Brand details: text selection, the scrollbar and the input caret are all themed to the palette.</li>
+      <li>impeccable's design detector raised no blocking issues. Its remaining notes are full-width sections whose inner container carries the padding, headings intentionally set tighter than body text, and a 9.6px text reading that does not occur when rendered (the smallest rendered text is 12px).</li>
+    </ul>
+  </section>
+
+  <section id="facts" aria-labelledby="facts-h">
+    <h2 id="facts-h">Fact audit</h2>
+    <p class="sec-intro">Every factual statement on the page, and where it comes from.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable table"><table>
+      <thead><tr><th scope="col">On the page</th><th scope="col">Source</th></tr></thead>
+      <tbody>
+        <tr><td>"We do them all" and the three verses</td><td>afrohairbynatacha.com.au home page</td></tr>
+        <tr><td>Award-winning; only Australian hairstylist to receive an Australian Multicultural Foundation Carla Zampatti Certificate of Distinction</td><td>Home page, Client &amp; Community Commitment</td></tr>
+        <tr><td>15 free hairstyles in one day, Lake Wendouree</td><td>Home page, Client &amp; Community Commitment</td></tr>
+        <tr><td>Friends travelling to Melbourne; some hairdressers qualify without afro training</td><td>Home page, Curly hair cut section</td></tr>
+        <tr><td>Consultation covering texture, porosity, length, density and potential</td><td>Home page introduction</td></tr>
+        <tr><td>100% natural human hair bundles and wigs, matched to hair type, face shape and lifestyle</td><td>Home page, Wigs and Weaves section</td></tr>
+        <tr><td>Own range launched August 2023, natural and organic ingredients; 71 imported products</td><td>Home page product sections</td></tr>
+        <tr><td>All nine product prices</td><td>"Natacha's Unique Product Range" PDF, prices as at 01.10.2025</td></tr>
+        <tr><td>Address, phone, WhatsApp, email, Instagram, Facebook, TikTok</td><td>Home page header and the PDF footers</td></tr>
+        <tr><td>Client quotes from Linda, Claire, Alayka and Helena</td><td>Home page testimonials, labelled on the page for confirmation</td></tr>
+        <tr><td>Photographs</td><td>Natacha's website (style photos, stall photo) and Instagram @afrohairbynatacha (products, soap, salon chair)</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="limits" aria-labelledby="limits-h">
+    <h2 id="limits-h">Placeholders and honest limits</h2>
+    <ul class="plain">
+      <li><strong>Placeholder</strong> service prices ($45, $90 and $120 "from") and opening hours are samples, labelled on the page. Natacha must supply the real ones. Neither is published anywhere today.</li>
+      <li><strong>Placeholder</strong> the four client quotes are carried over from her current site and labelled for her to confirm.</li>
+      <li>Photo quality is capped by the source. Logged-out Instagram only exposes her 11 newest posts at 640 pixels, and her website photos are small. Full-size originals from Natacha would sharpen every print.</li>
+      <li>This is pre-launch validation. No real visitors have used the page yet, so there is no conversion data. The best next step is to launch and count taps on Book now, Call and WhatsApp.</li>
+      <li>Not covered: manual screen-reader testing, physical iPhone and Android devices, and an actual WhatsApp send. The tests confirm the exact message and link that would open.</li>
+      <li>Speed was measured from a local server. GitHub Pages adds network distance but also compression, so expect similar results.</li>
+    </ul>
+  </section>
+
+  <section id="compare" aria-labelledby="cmp-h">
+    <h2 id="cmp-h">How it compares with the earlier concept</h2>
+    <p class="sec-intro">An earlier light "lookbook" concept was built and tested the same way. Both use the same verified facts, booking hand-off and placeholders. The gallery was chosen as the final design.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable table"><table class="compare">
+      <thead><tr><th scope="col"></th><th scope="col">Earlier concept: the lookbook</th><th scope="col">Final: the gallery</th></tr></thead>
+      <tbody>
+        <tr><td>Feel</td><td>Light, warm, editorial: porcelain, merlot and champagne</td><td>Dark, quiet, museum-like: black, bone and gold</td></tr>
+        <tr><td>Type</td><td>Spectral serif with italics</td><td>Archivo, a wide grotesk</td></tr>
+        <tr><td>Photos</td><td>Full colour, as shot</td><td>Black-and-white prints that develop into colour</td></tr>
+        <tr><td>Booking</td><td>All three steps visible at once, with a live summary card</td><td>One step at a time, then a review screen</td></tr>
+        <tr><td>Products</td><td>Price tags pegged on a wire, scrolled sideways</td><td>A lit shop with a three-column price list</td></tr>
+        <tr><td>Best if</td><td>Natacha wants warmth and approachability first</td><td>Natacha wants to look like the premium specialist in town</td></tr>
+        <tr><td>Accessibility (axe)</td><td>0 violations after one fix: the product scroller became keyboard-focusable</td><td>0 violations</td></tr>
+        <tr><td>Lowest contrast</td><td>4.57 : 1</td><td>6.14 : 1</td></tr>
+        <tr><td>Throttled phone, largest paint</td><td>0.67 s</td><td>0.68 s</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+</main>
+<footer><div class="wrap">Prepared as part of a redesign concept for Afro-Hair by Natacha, Black Hill, Ballarat. Validation run on 3 October 2026.</div></footer>
+</body>
+</html>
